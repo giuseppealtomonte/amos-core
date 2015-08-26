@@ -23,7 +23,12 @@
     "yiisoft/yii2-bootstrap": "*",
     "creocoder/yii2-taggable": "~2.0",
     "kartik-v/yii2-icons": "*",
-    "2amigos/yii2-google-maps-library" : "*",
-    "philippfrenzel/yii2fullcalendar":"*"
+    "2amigos/yii2-google-maps-library": "*",
+    "philippfrenzel/yii2fullcalendar": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "elitedivision\\amos\\core\\": ""
+    }
   }
 }
