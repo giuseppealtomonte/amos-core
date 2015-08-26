@@ -26,7 +26,7 @@ class BaseListView extends ListView
     ];
 
     public $buttons;
-    public $buttonClass = 'backend\components\views\common\Buttons';
+    public $buttonClass = 'elitedivision\amos\core\views\common\Buttons';
 
     public $viewOptions = [
         'class' => 'btn bk-btnMore'

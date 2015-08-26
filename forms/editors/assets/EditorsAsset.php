@@ -6,7 +6,7 @@ use yii\web\AssetBundle;
 
 class EditorsAsset extends AssetBundle
 {
-    public $sourcePath = '@backend/components/forms/editors/assets/web';
+    public $sourcePath = '@vendor/elite-division/amos-core/forms/editors/assets/web';
 
     public $css = [
     ];

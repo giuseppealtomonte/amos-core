@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
         }
         ?>
         [
-        'class' => 'backend\components\views\grid\ActionColumn',
+        'class' => 'elitedivision\amos\core\views\grid\ActionColumn',
         ],
         ],
         ],

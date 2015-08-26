@@ -169,7 +169,7 @@ class CarteWidget extends Widget
                 ['attribute' => 'cf_condominio', 'label' => 'CF del condominio'],
                 'note:ntext',
                 /*[
-                    'class' => 'backend\components\views\grid\ActionColumn',
+                    'class' => 'elitedivision\amos\core\views\grid\ActionColumn',
                     'template' => '{condominio}',
                     'buttons' => [
                         'condominio' => function ($url, $model) {

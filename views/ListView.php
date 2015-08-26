@@ -13,7 +13,7 @@ class ListView extends BaseListView
 
     public $template = '{view} {update} {delete}';
     public $buttons;
-    public $buttonClass = 'backend\components\views\common\Buttons';
+    public $buttonClass = 'elitedivision\amos\core\views\common\Buttons';
     public $viewOptions = [
         'class' => 'btn bk-btnMore'
     ];

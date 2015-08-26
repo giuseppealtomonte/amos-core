@@ -3,6 +3,7 @@
 namespace elitedivision\amos\core\forms\editors;
 
 use elitedivision\amos\core\views\AmosGridView;
+use elitedivision\amos\core\views\grid\ActionColumn;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
@@ -157,7 +158,7 @@ class CondominiAmmWidget extends Widget {
                             }
                         ],
                         [
-                            'class' => 'backend\components\views\grid\ActionColumn',
+                            'class' => ActionColumn::className(),
                             'template' => '{condominio}',
                             'buttons' => [
                                 'condominio' => function ($url, $model) {

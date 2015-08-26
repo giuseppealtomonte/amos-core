@@ -19,7 +19,7 @@ class ActiveForm extends YiiActiveForm
             \n<div class=\"col-xs-12\">{input}</div>
             </div>",
         ];
-        $this->fieldClass = 'backend\components\forms\ActiveField';
+        $this->fieldClass = ActiveField::className();
 
         echo Html::tag('span', AmosIcons::show('alert'), [
             'id' => 'errore-alert-common',

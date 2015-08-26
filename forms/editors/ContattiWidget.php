@@ -3,6 +3,7 @@
 namespace elitedivision\amos\core\forms\editors;
 
 use elitedivision\amos\core\views\AmosGridView;
+use elitedivision\amos\core\views\grid\ActionColumn;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
@@ -150,7 +151,7 @@ class ContattiWidget extends Widget {
                                     'label' => 'Stato',
                                 ],
                                 [
-                                    'class' => 'backend\components\views\grid\ActionColumn',
+                                    'class' => ActionColumn::className(),
                                     'template' => '{accetta} {rifiuta} {annulla} {termina}',
                                     'buttons' => [
                                         'accetta' => function ($url, $model) {

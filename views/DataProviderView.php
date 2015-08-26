@@ -17,11 +17,11 @@ class DataProviderView extends Widget
     public $view;
     public $currentView;
 
-    public $viewListClass = 'backend\components\views\ListView';
-    public $viewGridClass = 'backend\components\views\AmosGridView';
-    public $viewIconClass = 'backend\components\views\IconView';
-    public $viewMapClass = 'backend\components\views\MapView';
-    public $viewCalendarClass = 'backend\components\views\CalendarView';
+    public $viewListClass = 'elitedivision\amos\core\views\ListView';
+    public $viewGridClass = 'elitedivision\amos\core\views\AmosGridView';
+    public $viewIconClass = 'elitedivision\amos\core\views\IconView';
+    public $viewMapClass = 'elitedivision\amos\core\views\MapView';
+    public $viewCalendarClass = 'elitedivision\amos\core\views\CalendarView';
 
     public $dataProvider;
 

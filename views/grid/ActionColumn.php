@@ -14,7 +14,7 @@ use yii\helpers\Html;
 class ActionColumn extends YiiActionColumn
 {
 
-    public $buttonClass = 'backend\components\views\common\Buttons';
+    public $buttonClass = 'elitedivision\amos\core\views\common\Buttons';
     public $viewOptions = [
         'class' => 'btn bk-btnMore'
     ];
