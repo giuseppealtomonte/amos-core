@@ -130,7 +130,7 @@ class ContattiWidget extends Widget {
                           ], */
                         'userprofile.avatar_id' =>
                         [
-                            'label' => '',
+                            'label' => 'Foto',
                             'format' => 'html',
                             'value' => function ($model) {
 
@@ -139,26 +139,30 @@ class ContattiWidget extends Widget {
                                 if ($mediafile) {
                                     $url = $mediafile->getThumbUrl('medium');
                                 }
-                                return Html::img($url, ['width' => '100']);
+                                return Html::img($url, ['width' => '50']);
                             }
                                 ],
                                 'nome',
                                 'cognome',
-                                ['attribute' => 'data_richiesta', 'format' => ['datetime', (isset(Yii::$app->modules['datecontrol']['displaySettings']['datetime'])) ? Yii::$app->modules['datecontrol']['displaySettings']['datetime'] : 'd-m-Y H:i:s']],
-                                ['attribute' => 'data_accettazione', 'format' => ['datetime', (isset(Yii::$app->modules['datecontrol']['displaySettings']['datetime'])) ? Yii::$app->modules['datecontrol']['displaySettings']['datetime'] : 'd-m-Y H:i:s']],
+                                'data_richiesta:datetime',
+                                'data_accettazione:datetime',
+                                //['attribute' => 'data_richiesta', 'format' => ['datetime', (isset(Yii::$app->modules['datecontrol']['displaySettings']['datetime'])) ? Yii::$app->modules['datecontrol']['displaySettings']['datetime'] : 'd-m-Y H:i:s']],
+                                //['attribute' => 'data_accettazione', 'format' => ['datetime', (isset(Yii::$app->modules['datecontrol']['displaySettings']['datetime'])) ? Yii::$app->modules['datecontrol']['displaySettings']['datetime'] : 'd-m-Y H:i:s']],
                                 [
                                     'attribute' => 'descrizione',
                                     'label' => 'Stato',
                                 ],
                                 [
                                     'class' => ActionColumn::className(),
-                                    'template' => '{accetta} {rifiuta} {annulla} {termina}',
+                                    'template' => '{accetta} {rifiuta} {annulla} {contatta} {termina}',
                                     'buttons' => [
-                                        'accetta' => function ($url, $model) {
+                                                'accetta' => function ($url, $model) {
                                             $url = \yii\helpers\Url::current();
                                             if (\Yii::$app->getUser()->can($this->permissions['add'], ['model' => $this->model]) && $this->model['id'] != $model['id_richiedente'] && $this->model['id'] == $model['id_destinatario'] && $model['descrizione'] == 'In attesa di accettazione') {
-                                                return Html::a('<p class="btn bk-btnAssociaCondominio" title="Accetta richiesta di contatto"><span id="bk-btnAssociaCondominio" class="ti ti-user"></span></p>', Yii::$app->urlManager->createUrl(['/admin/user-profile/cambia-stato-contatto', 'id' => $this->model['id'], 'azione' => 'accetta', 'url' => $url]), [
-                                                            'title' => Yii::t('yii', 'Accetta richiesta di contatto')
+                                                //pr($this->model['id'] . " - " . $model['id'], 'accetta');
+                                                return Html::a('<span id="bk-btnEdit" class="ti ti-user"></span>', Yii::$app->urlManager->createUrl(['/admin/user-profile/cambia-stato-contatto', 'id' => $model['id'], 'idConnesso' => $this->model['id'], 'azione' => 'accetta', 'url' => $url]), [
+                                                            'title' => Yii::t('yii', 'Accetta richiesta di contatto'),
+                                                            'class' => 'btn bk-btnEdit',
                                                 ]);
                                             } else {
                                                 return '';
@@ -167,8 +171,11 @@ class ContattiWidget extends Widget {
                                                 'rifiuta' => function ($url, $model) {
                                             $url = \yii\helpers\Url::current();
                                             if (\Yii::$app->getUser()->can($this->permissions['add'], ['model' => $this->model]) && $this->model['id'] != $model['id_richiedente'] && $this->model['id'] == $model['id_destinatario'] && $model['descrizione'] == 'In attesa di accettazione') {
-                                                return Html::a('<p class="btn bk-btnAssociaCondominio" title="Rifiuta richiesta di contatto"><span id="bk-btnAssociaCondominio" class="ti ti-trash"></span></p>', Yii::$app->urlManager->createUrl(['/admin/user-profile/cambia-stato-contatto', 'id' => $this->model['id'], 'azione' => 'rifiuta', 'url' => $url]), [
-                                                            'title' => Yii::t('yii', 'Rifiuta richiesta di contatto')
+                                                //pr($this->model['id'] . " - " . $model['id'], 'rifiuta');
+                                                return Html::a('<span id="bk-btnDelete" class="ti ti-trash"></span>', Yii::$app->urlManager->createUrl(['/admin/user-profile/cambia-stato-contatto', 'id' => $model['id'], 'idConnesso' => $this->model['id'], 'azione' => 'rifiuta', 'url' => $url]), [
+                                                            'title' => Yii::t('yii', 'Rifiuta richiesta di contatto'),
+                                                            'data-confirm' => Yii::t('yii', 'Sei sicuro di voler rifiutare questo contatto?'),
+                                                            'class' => 'btn bk-btnDelete'
                                                 ]);
                                             } else {
                                                 return '';
@@ -177,8 +184,23 @@ class ContattiWidget extends Widget {
                                                 'annulla' => function ($url, $model) {
                                             $url = \yii\helpers\Url::current();
                                             if (\Yii::$app->getUser()->can($this->permissions['add'], ['model' => $this->model]) && $this->model['id'] == $model['id_richiedente'] && $this->model['id'] != $model['id_destinatario'] && $model['descrizione'] == 'In attesa di accettazione') {
-                                                return Html::a('<p class="btn bk-btnAssociaCondominio" title="Annulla richiesta di contatto"><span id="bk-btnAssociaCondominio" class="ti ti-trash"></span></p>', Yii::$app->urlManager->createUrl(['/admin/user-profile/cambia-stato-contatto', 'id' => $this->model['id'], 'azione' => 'annulla', 'url' => $url]), [
-                                                            'title' => Yii::t('yii', 'Annulla richiesta di contatto')
+                                                //pr($this->model['id'] . " - " . $model['id'], 'annulla');
+                                                return Html::a('<span id="bk-btnDelete" class="ti ti-trash"></span>', Yii::$app->urlManager->createUrl(['/admin/user-profile/cambia-stato-contatto', 'id' => $model['id'], 'idConnesso' => $this->model['id'], 'azione' => 'annulla', 'url' => $url]), [
+                                                            'title' => Yii::t('yii', 'Annulla richiesta di contatto'),
+                                                            'data-confirm' => Yii::t('yii', 'Sei sicuro di voler cancellare questa richiesta?'),
+                                                            'class' => 'btn bk-btnDelete',
+                                                ]);
+                                            } else {
+                                                return '';
+                                            }
+                                        },
+                                                'contatta' => function ($url, $model) {
+                                            $url = \yii\helpers\Url::current() . "#tab-contatti";
+                                            if (\Yii::$app->getUser()->can($this->permissions['add'], ['model' => $this->model]) && ($this->model['id'] == $model['id_richiedente'] || $this->model['id'] == $model['id_destinatario']) && $model['descrizione'] == 'Attivo') {
+                                                //pr($this->model['id'] . " - " . $model['id'], 'contatta');
+                                                return Html::a('<span class="ti ti-comments"></span>', Yii::$app->urlManager->createUrl(['/comunicazioni/comunicazioni-discussioni-topic/create', 'idUtente' => $model['id'], 'url' => $url]), [
+                                                            'title' => Yii::t('yii', 'Contatta l\'utente'),
+                                                            'class' => 'btn bk-btnImport'
                                                 ]);
                                             } else {
                                                 return '';
@@ -187,8 +209,11 @@ class ContattiWidget extends Widget {
                                                 'termina' => function ($url, $model) {
                                             $url = \yii\helpers\Url::current();
                                             if (\Yii::$app->getUser()->can($this->permissions['add'], ['model' => $this->model]) && ($this->model['id'] == $model['id_richiedente'] || $this->model['id'] == $model['id_destinatario']) && $model['descrizione'] == 'Attivo') {
-                                                return Html::a('<p class="btn bk-btnAssociaCondominio" title="Termina contatto"><span id="bk-btnAssociaCondominio" class="ti ti-unlink"></span></p>', Yii::$app->urlManager->createUrl(['/admin/user-profile/cambia-stato-contatto', 'id' => $this->model['id'], 'azione' => 'termina', 'url' => $url]), [
-                                                            'title' => Yii::t('yii', 'Termina contatto')
+                                                //pr($this->model['id'] . " - " . $model['id'], 'termina');pr($model['id_destinatario'], 'destinatario');
+                                                return Html::a('<span id="bk-btnEdit" class="ti ti-unlink"></span>', Yii::$app->urlManager->createUrl(['/admin/user-profile/cambia-stato-contatto', 'id' => $model['id'], 'idConnesso' => $this->model['id'], 'azione' => 'termina', 'url' => $url]), [
+                                                            'title' => Yii::t('yii', 'Termina contatto'),
+                                                            'data-confirm' => Yii::t('yii', 'Sei sicuro di voler cancellare questo contatto?'),
+                                                            'class' => 'btn bk-btnDelete'
                                                 ]);
                                             } else {
                                                 return '';
@@ -209,7 +234,7 @@ class ContattiWidget extends Widget {
                         $this->getView()->params['postKey'] = $this->postKey;
                         $this->getView()->params['postName'] = $this->postName;
                         $idConnesso = Yii::$app->getUser()->getId();
-                        $ruoloConnesso = Yii::$app->authManager->getRolesByUser($idConnesso);                        
+                        $ruoloConnesso = Yii::$app->authManager->getRolesByUser($idConnesso);
                         if ($idConnesso == $this->model->id || (isset($ruoloConnesso['ADMIN']) || isset($ruoloConnesso['CL_SMART']))) {
                             $Grid = $this->getView()->renderFile('@backend/modules/admin/views/user-profile/associa_contatti_grid.php', [
                                 'searchModel' => $this->modelTarget
@@ -218,8 +243,8 @@ class ContattiWidget extends Widget {
                         } else {
                             echo '<div class="site-error">
                                         <div class="alert alert-danger">' .
-                                        Yii::t('contattiWidget', 'Non sei autorizzato ad eseguire questa operazione.')
-                                    . '</div>   
+                            Yii::t('contattiWidget', 'Non sei autorizzato ad eseguire questa operazione.')
+                            . '</div>   
                                     </div>';
                         }
                     }
@@ -232,9 +257,11 @@ class ContattiWidget extends Widget {
                         if (\Yii::$app->getUser()->can($this->permissions['add'], ['model' => $this->model])) {
                             $buttons = Html::a('Associa', [$this->targetUrl, 'id' => $this->modelId], [
                                         'class' => 'btn btn-primary btn-associa',
+                            ]) . "  " . Html::a('Vai alle mie conversazioni', ['/comunicazioni/comunicazioni-discussioni-topic/index'], [
+                                        'class' => 'btn btn-primary btn-associa',
                             ]);
                         }
-                        return Html::tag('div', $buttons, ['class' => 'row']);
+                        return Html::tag('div', $buttons);
                     }
 
                     /**
@@ -242,12 +269,10 @@ class ContattiWidget extends Widget {
                      */
                     public function renderToolbarTarget() {
                         $idConnesso = Yii::$app->getUser()->getId();
-                        $ruoloConnesso = Yii::$app->authManager->getRolesByUser($idConnesso);                        
+                        $ruoloConnesso = Yii::$app->authManager->getRolesByUser($idConnesso);
                         if ($idConnesso == $this->model->id || (isset($ruoloConnesso['ADMIN']) || isset($ruoloConnesso['CL_SMART']))) {
-                        $buttons = Html::submitButton('Salva', [
-                                    'class' => 'btn btn-primary btn-associa-salva']);
 
-                        return Html::beginForm() . Html::tag('div', $buttons, ['class' => 'row']);
+                            return Html::beginForm();
                         }
                     }
 
@@ -256,9 +281,11 @@ class ContattiWidget extends Widget {
                      */
                     public function renderFooterTarget() {
                         $idConnesso = Yii::$app->getUser()->getId();
-                        $ruoloConnesso = Yii::$app->authManager->getRolesByUser($idConnesso);                        
+                        $ruoloConnesso = Yii::$app->authManager->getRolesByUser($idConnesso);
                         if ($idConnesso == $this->model->id || (isset($ruoloConnesso['ADMIN']) || isset($ruoloConnesso['CL_SMART']))) {
-                        return Html::endForm();
+                            $buttons = Html::submitButton('Salva', [
+                                        'class' => 'btn btn-primary btn-associa-salva']);
+                            return Html::tag('div', $buttons, ['class' => 'associazione-buttons']) . Html::endForm();
                         }
                     }
 

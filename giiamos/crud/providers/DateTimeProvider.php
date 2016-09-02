@@ -2,7 +2,7 @@
 
 namespace elitedivision\amos\core\giiamos\crud\providers;
 
-class DateTimeProvider extends \schmunk42\giiant\crud\providers\DateTimeProvider
+class DateTimeProvider extends \schmunk42\giiant\generators\crud\providers\DateTimeProvider
 {
 
 

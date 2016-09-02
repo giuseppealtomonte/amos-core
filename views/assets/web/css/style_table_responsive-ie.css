@@ -1,0 +1,101 @@
+/*RESPONSIVE TABLE IE - layout*/
+@media(max-width: 767px) {
+	.table_switch table, 
+	.table_switch thead, 
+	.table_switch tbody, 
+	.table_switch th, 
+	.table_switch td, 
+	.table_switch tr { 
+		display: block;
+		float: left;
+    	width: 100%;
+	}			
+	/*----hide header if not filter or input_element(select/deselect all) class----*/	
+	 .table_switch thead tr{
+	 	display: none;
+	 }
+	 .table_switch thead tr.filters{
+	 	display: block;
+	 }
+	 .table_switch thead tr.filters th{
+	 	display: none;
+	 }
+	 .table_switch thead tr.filters th.input_element{
+	 	display: block;
+	 }
+	/*---- end ----*/
+	.table_switch tr {
+		border: 1px solid #ccc; 
+	}			
+	.table_switch th.input_element input[type=checkbox]{
+		margin-left: 30%;	
+	}
+	.table_switch td{
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 30% !important;
+	    min-height: 40px;
+	}	
+	.table_switch td:before{
+		/* like a table header */
+		position: absolute;
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+	}	
+	/*Label the data			
+	 * General Rule: add content by title of TD before it
+	 * If is image no label
+	 * If is heder-checkbox (select/deselect all) fix label 
+	 * */
+	.table_switch th.input_element{
+		position: relative;
+		border-width: 0;
+	}
+	.table_switch th.input_element input[type=checkbox]{
+		margin-left: 35%;	
+	}
+	.table_switch th.input_element:before{
+		content: "Seleziona/Deseleziona tutto"; 
+		font-weight: bold; 
+	    position: absolute;
+    	left: 5px;
+	}	
+	.table_switch td:before{
+		content: attr(title); 
+		font-weight: bold; 
+	}	
+	.table_switch td[title="Immagine"]:before,
+	.table_switch td[title="immagine"]:before,
+	.table_switch td[title="Foto"]:before,
+	.table_switch td[title="foto"]:before,
+	.table_switch td[title="Logo"]:before,
+	.table_switch td[title="logo"]:before,
+	.table_switch td[title="Avatar"]:before,
+	.table_switch td[title="avatar"]:before,
+	.table_switch tr.filters td[title='']{ 
+		display: none; 		
+	}
+	.table_switch td[title="Immagine"],
+	.table_switch td[title="immagine"],
+	.table_switch td[title="Foto"],
+	.table_switch td[title="foto"],
+	.table_switch td[title="Logo"],
+	.table_switch td[title="logo"],
+	.table_switch td[title="Avatar"],
+	.table_switch td[title="avatar"],
+	.table_switch td[title='']{
+		padding-left: 10px !important; 
+	}
+}
+@media (max-width: 767px) {
+	.table_switch td {
+		padding-left: 48% !important;
+		white-space: normal !important;
+	}
+	.table_switch th.input_element input[type=checkbox]{
+		float: right;
+	}
+}

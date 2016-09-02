@@ -3,13 +3,15 @@ use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 ?>
 <?=
-'use elitedivision\amos\core\helpers\Html;
+'<?php
+use elitedivision\amos\core\helpers\Html;
 /*
  * Personalizzare a piacimento la vista
  * $model è il model legato alla tabella del db
  * $buttons sono i tasti del template standard {view}{update}{delete}
  */
- 
+?>
+
 <div id="listViewListContainer">
     <div class="row">
         <div id="bk-listViewElement'. ucfirst(Inflector::camel2id(StringHelper::basename($generator->modelClass))) .'" class="col-xs-12 bk-listViewElement'. ucfirst(Inflector::camel2id(StringHelper::basename($generator->modelClass)))  .'">

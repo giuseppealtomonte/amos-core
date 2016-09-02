@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
  * File generato automaticamente, verificarne
  * il contenuto prima di utilizzarlo in produzione
  */
-class <?= Inflector::camel2words(StringHelper::basename($generator->modelClass)) ?>Query extends CwhActiveQuery
+class <?=str_replace(' ', '', trim(Inflector::camel2words(StringHelper::basename($generator->modelClass))))?>Query extends CwhActiveQuery
 {
     /**
      * @return array
@@ -30,7 +30,7 @@ class <?= Inflector::camel2words(StringHelper::basename($generator->modelClass))
     //        parent::behaviors(), [
     //            TaggableQueryBehavior::className()
     //        ]
-    //    );
+    //    );   
     //}
 
     /**
@@ -39,7 +39,7 @@ class <?= Inflector::camel2words(StringHelper::basename($generator->modelClass))
     public function attive()
     {
     //Questo è solo un esempio, verificare che i campi e le tabelle siano corretti
-    return $this->innerJoin('<?= lcfirst(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>_stato', '<?= lcfirst(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>.<?= lcfirst(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>_stato_id = <?= lcfirst(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>_stato.id AND <?= lcfirst(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>_stato.nome = :stato_nome', [
+    return $this->innerJoin('<?= lcfirst(str_replace(' ', '', trim(Inflector::camel2words(StringHelper::basename($generator->modelClass))))) ?>_stato', '<?= lcfirst(str_replace(' ', '', trim(Inflector::camel2words(StringHelper::basename($generator->modelClass))))) ?>.<?= lcfirst(str_replace(' ', '', trim(Inflector::camel2words(StringHelper::basename($generator->modelClass))))) ?>_stato_id = <?= lcfirst(str_replace(' ', '', trim(Inflector::camel2words(StringHelper::basename($generator->modelClass))))) ?>_stato.id AND <?= lcfirst(str_replace(' ', '', trim(Inflector::camel2words(StringHelper::basename($generator->modelClass))))) ?>_stato.nome = :stato_nome', [
             ':stato_nome' => 'Attiva'
         ]);
     }

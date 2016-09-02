@@ -17,14 +17,14 @@ echo "<?php\n";
 
 ?>
 
-use yii\helpers\Html;
-use <?= $generator->indexWidgetType === 'grid' ? "backend\\components\\views\\DataProviderView;" : "yii\\widgets\\ListView" ?>;
+use elitedivision\amos\core\helpers\Html;
+use <?= $generator->indexWidgetType === 'grid' ? "elitedivision\\amos\\core\\views\\DataProviderView" : "yii\\widgets\\ListView" ?>;
 use yii\widgets\Pjax;
 
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
-<?= !empty($generator->searchModelClass) ? " * @var " . ltrim($generator->searchModelClass, '\\') . " \$searchModel\n" : '' ?>
+<?= !empty($generator->searchModelClass) ? " * @var " . ltrim($generator->searchModelClass, '\\') . " \$model\n" : '' ?>
 */
 
 $this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-index">
     <?php if (!empty($generator->searchModelClass)): ?>
-        <?= "    <?php " . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
+        <?= "    <?php " . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $model]); ?>
     <?php endif; ?>
 
     <p>
@@ -90,10 +90,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'itemView' => '_icon'
         ],
         'mapView' => [
-            'itemView' => '_map',
+            'itemView' => '_map',          
             'markerConfig' => [
                 'lat' => 'domicilio_lat',
                 'lng' => 'domicilio_lon',
+                'icon' => 'iconaMarker',
             ]
         ],
         'calendarView' => [
@@ -107,7 +108,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'end' => 'data_fine',
                 //'color' => 'coloreEvento',
                 //'url' => 'urlEvento'
-            ],                
+            ],
+            'array' => false,//se ci sono più eventi legati al singolo record
+            //'getEventi' => 'getEvents'//funzione da abilitare e implementare nel model per creare un array di eventi legati al record
         ]*/
         ]); ?>
     <?php else: ?>

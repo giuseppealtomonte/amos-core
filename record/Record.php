@@ -5,16 +5,15 @@ namespace elitedivision\amos\core\record;
 use elitedivision\amos\core\behaviors\SoftDeleteByBehavior;
 use elitedivision\amos\core\behaviors\VersionableBehaviour;
 use backend\modules\admin\models\UserProfile;
-/*use bedezign\yii2\audit\AuditTrailBehavior;*/
+use bedezign\yii2\audit\AuditTrailBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 
-class Record extends ActiveRecord
-{
-    public static function find()
-    {
+class Record extends ActiveRecord {
+
+    public static function find() {
         $return = parent::find();
         if (in_array('deleted_at', parent::attributes())) {
             $tableName = static::getTableSchema()->name;
@@ -23,13 +22,11 @@ class Record extends ActiveRecord
         return $return;
     }
 
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             [
                 'class' => SoftDeleteByBehavior::className()
             ],
-
             [
                 'class' => TimestampBehavior::className(),
                 'value' => new Expression('NOW()'),
@@ -41,23 +38,17 @@ class Record extends ActiveRecord
                 'class' => VersionableBehaviour::className(),
                 'versionTable' => "{$this->tableName()}_version"
             ],
-
-            /*
             [
                 'class' => AuditTrailBehavior::className(),
             ]
-            */
         ];
-
     }
 
-    public function representingColumn()
-    {
+    public function representingColumn() {
         return null;
     }
 
-    public function __toString()
-    {
+    public function __toString() {
 
         $representingColumn = $this->representingColumn();
         if (($representingColumn === null) || ($representingColumn === array()))
@@ -75,36 +66,32 @@ class Record extends ActiveRecord
             }
             return substr($part, 0, -1);
         } else {
-            return $this->$representingColumn === null ? '' : (string)$this->$representingColumn;
+            return $this->$representingColumn === null ? '' : (string) $this->$representingColumn;
         }
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCreatedUserProfile()
-    {
+    public function getCreatedUserProfile() {
         return $this->hasOne(UserProfile::className(), ['id' => 'created_by']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUpdatedUserProfile()
-    {
+    public function getUpdatedUserProfile() {
         return $this->hasOne(UserProfile::className(), ['id' => 'updated_by']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDeletedUserProfile()
-    {
+    public function getDeletedUserProfile() {
         return $this->hasOne(UserProfile::className(), ['id' => 'deleted_by']);
     }
 
-    public function checkCodiceFiscale($attribute, $params)
-    {
+    public function checkCodiceFiscale($attribute, $params) {
         $codiceFiscale = $this->$attribute;
         if (!$codiceFiscale) {
             $isValid = true;
@@ -119,8 +106,10 @@ class Record extends ActiveRecord
         $s = 0;
         for ($i = 1; $i <= 13; $i += 2) {
             $c = $codiceFiscale[$i];
-            if ('0' <= $c && $c <= '9') $s += ord($c) - ord('0');
-            else $s += ord($c) - ord('A');
+            if ('0' <= $c && $c <= '9')
+                $s += ord($c) - ord('0');
+            else
+                $s += ord($c) - ord('A');
         }
         for ($i = 0; $i <= 14; $i += 2) {
             $c = $codiceFiscale[$i];
@@ -247,6 +236,5 @@ class Record extends ActiveRecord
             $this->addError($attribute, \Yii::t('app', 'Il codice fiscale non è un formato consentito'));
         }
     }
-
 
 }

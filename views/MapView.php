@@ -4,7 +4,7 @@ namespace elitedivision\amos\core\views;
 
 use elitedivision\amos\core\record\Record;
 use dosamigos\google\maps\LatLng;
-use dosamigos\google\maps\Map;
+use elitedivision\amos\core\views\MapEliteDivision;
 use dosamigos\google\maps\MapAsset;
 use dosamigos\google\maps\overlays\InfoWindow;
 use dosamigos\google\maps\overlays\Marker;
@@ -20,13 +20,13 @@ class MapView extends BaseListView
      */
     public $map;
 
-    public $zoom = 12;
+    public $zoom = 8;
 
     public $autoCenter = true;
 
     public $centerPoint = [
-        'lat' => 41.9109,
-        'lng' => 12.4818
+        'lat' => 44.5072,
+        'lng' => 11.3620
     ];
 
     public $markers;
@@ -34,16 +34,17 @@ class MapView extends BaseListView
     public $markerConfig = [
         'lat' => 'lat',
         'lng' => 'lng',
+        'icon' => 'iconaMarker', //percorso icona
     ];
 
     public function init()
     {
         parent::init();
         $LatLngCenter = new LatLng(['lat' => $this->centerPoint['lat'], 'lng' => $this->centerPoint['lng']]);
-        $this->map = new Map([
+        $this->map = new MapEliteDivision([
             'zoom' => $this->zoom,
             'center' => $LatLngCenter,
-            'width' => '100%',
+            'width' => '100%',            
         ]);
 
         $this->initMarkers();
@@ -84,12 +85,13 @@ class MapView extends BaseListView
         if ($this->validateMarker($model, $key, $index)) {
             $LatLng = new LatLng([
                 'lat' => $model[$this->markerConfig['lat']],
-                'lng' => $model[$this->markerConfig['lng']]
+                'lng' => $model[$this->markerConfig['lng']],                
             ]);
 
             $marker = new Marker([
                 'position' => $LatLng,
                 'title' => $model->__toString(),
+                'icon' => $model[$this->markerConfig['icon']],
             ]);
 
             $marker->attachInfoWindow(
@@ -122,6 +124,7 @@ class MapView extends BaseListView
     public function run()
     {
         MapAsset::register($this->getView());
+        assets\EliteDivisionMapAsset::register($this->getView());
         return $this->map->display();
     }
 

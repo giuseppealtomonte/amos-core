@@ -3,12 +3,10 @@
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 
-
 /**
  * @var yii\web\View $this
  * @var yii\gii\generators\crud\Generator $generator
  */
-
 /** @var \yii\db\ActiveRecord $model */
 $model = new $generator->modelClass;
 $safeAttributes = $model->safeAttributes();
@@ -20,14 +18,14 @@ $itemsTab = [];
 
 
 echo "<?php\n";
-
 ?>
 
-use yii\helpers\Html;
-use kartik\widgets\ActiveForm;
+use elitedivision\amos\core\helpers\Html;
+use elitedivision\amos\core\forms\ActiveForm;
 use kartik\builder\Form;
 use kartik\datecontrol\DateControl;
-use yii\bootstrap\Tabs;
+use elitedivision\amos\core\forms\Tabs;
+use yii\helpers\Url;
 
 /**
 * @var yii\web\View $this
@@ -40,7 +38,7 @@ use yii\bootstrap\Tabs;
 
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form">
 
-    <?= "<?php " ?>$form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL]); <?= " ?>" ?>       
+    <?= "<?php " ?>$form = ActiveForm::begin(); <?= " ?>" ?>       
 
 
     <?php foreach ($generator->getFormTabsAsArray() as $tabName) { ?>
@@ -51,18 +49,17 @@ use yii\bootstrap\Tabs;
 
         <?php foreach ($generator->getAttributesTab($tabName) as $attribute) { ?>
 
-            <?php $column = $model->getTableSchema()->getColumn($attribute);
+            <?php
+            $column = $model->getTableSchema()->getColumn($attribute);
             if (!get_class($column) || $column == null) {
                 continue;
             }
             ?>
             <div class="col-lg-6 col-sm-6">
                 <?php
-                
-                
-                 $prepend = $generator->prependActiveField($attribute, $model);
-                $field   = $generator->activeField($attribute, $model);
-                $append  = $generator->appendActiveField($attribute, $model);
+                $prepend = $generator->prependActiveField($attribute, $model);
+                $field = $generator->activeField($attribute, $model);
+                $append = $generator->appendActiveField($attribute, $model);
                 if ($prepend) {
                     echo "\n\t\t\t<?php " . $prepend . " ?>";
                 }
@@ -96,20 +93,19 @@ use yii\bootstrap\Tabs;
     );
     <?= " ?>" ?>
     <div id="form-actions" class="bk-btnFormContainer">
-             
-            <?= "<?= " ?> Html::submitButton($model->isNewRecord ?
-                            Yii::t('<?= $generator->messageCategory ?>', 'Inserisci') :
-                            Yii::t('<?= $generator->messageCategory ?>', 'Salva'), [
-                'class' => $model->isNewRecord ?
-                        'btn btn-success' :
-                        'btn btn-primary'
-            ]); <?= "?>\n\n" ?>
-               
+
         <?= "<?= " ?>
         Html::a(Yii::t('<?= $generator->messageCategory ?>', 'Chiudi'), Url::previous(), [
-            'class' => 'btn btn-warning'
+        'class' => 'btn btn-warning'
         ]);
         <?= "?>\n\n" ?>
+        <?= "<?= " ?> Html::submitButton($model->isNewRecord ?
+        Yii::t('<?= $generator->messageCategory ?>', 'Inserisci') :
+        Yii::t('<?= $generator->messageCategory ?>', 'Salva'), [
+        'class' => $model->isNewRecord ?
+        'btn btn-success' :
+        'btn btn-primary'
+        ]); <?= "?>\n\n" ?>                       
 
     </div>
     <?= "<?php " ?> ActiveForm::end(); <?= " ?>" ?>

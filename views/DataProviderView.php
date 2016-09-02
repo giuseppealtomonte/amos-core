@@ -40,7 +40,7 @@ class DataProviderView extends Widget
             ArrayHelper::merge(
                 [
                     'class' => $viewClass,
-                    'dataProvider' => $this->getDataProvider(),
+                    'dataProvider' => $this->getDataProvider(),                    
                 ], $viewParams);
 
         $this->view = \Yii::createObject($view);

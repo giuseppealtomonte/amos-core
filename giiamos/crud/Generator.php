@@ -10,17 +10,17 @@ namespace elitedivision\amos\core\giiamos\crud;
 use Yii;
 use yii\db\ActiveRecord;
 
-class Generator extends \schmunk42\giiant\crud\Generator
+class Generator extends \schmunk42\giiant\generators\crud\Generator
 {
     public $formTabs;
     public $formTabsSeparator = '|';
     public $formTabsFieldSeparator = ',';
     public $tabsFieldList = [];
-    public $providerList = 'backend\components\giiamos\crud\providers\CallbackProvider,
-                            backend\components\giiamos\crud\providers\DateTimeProvider,
-                            backend\components\giiamos\crud\providers\EditorProvider,
-                            backend\components\giiamos\crud\providers\OptsProvider,
-                            backend\components\giiamos\crud\providers\RelationProvider';
+    public $providerList = 'elitedivision\amos\core\giiamos\crud\providers\CallbackProvider,
+                            elitedivision\amos\core\giiamos\crud\providers\DateTimeProvider,
+                            elitedivision\amos\core\giiamos\crud\providers\EditorProvider,
+                            elitedivision\amos\core\giiamos\crud\providers\OptsProvider,
+                            elitedivision\amos\core\giiamos\crud\providers\RelationProvider';
 
     /**
      * @inheritdoc

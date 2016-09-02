@@ -1,11 +1,13 @@
 <?= 
-"use backend\\components\\helpers\\Html; 
+"<?php 
+use elitedivision\\amos\\core\\helpers\\Html; 
     
 /*
  * Personalizzare a piacimento la vista
  * \$model è il model legato alla tabella del db
  * \$buttons sono i tasti del template standard {view}{update}{delete}
  */
+ ?>
 
 <div id=\"listViewListContainer\">       
         ############ PERSONALIZZARE A PIACIMENTO L'HTML ##############

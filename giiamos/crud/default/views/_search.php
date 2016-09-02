@@ -11,7 +11,7 @@ use yii\helpers\StringHelper;
 echo "<?php\n";
 ?>
 
-use yii\helpers\Html;
+use elitedivision\amos\core\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /**

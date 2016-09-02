@@ -42,7 +42,7 @@ class Html extends \yii\helpers\Html
     }
 
     public static function a($text, $url = null, $options = [])
-    {
+    { 
         if (isset($url)) {
             $safeUrl = '';
             $safeUrlParams = [];
@@ -50,12 +50,11 @@ class Html extends \yii\helpers\Html
                 $tempUrl = $url;
                 $safeUrl = $url[0];
                 unset($tempUrl[0]);
-
                 $safeUrlParams = $tempUrl;
             }else{
                 $parsedUrl = parse_url($url);
                 $safeUrl = $parsedUrl['path'];
-                parse_str($parsedUrl['path'], $safeUrlParams);
+                parse_str(isset($parsedUrl['query']) ? $parsedUrl['query'] : NULL, $safeUrlParams);
             }
 
             $isValidPermission = \Yii::$app->getAuthManager()->getPermission($safeUrl);
@@ -80,3 +79,11 @@ class Html extends \yii\helpers\Html
     }
 
 }
+/*
+public static function a($text, $url = null, $options = [])
+    {
+        if ($url !== null) {
+            $options['href'] = Url::to($url);
+        }
+        return static::tag('a', $text, $options);
+    }*/

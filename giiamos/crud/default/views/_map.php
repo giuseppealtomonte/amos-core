@@ -1,18 +1,21 @@
 <?php
 
-function preparaUrl($stringa){
-    $nuovaStringa = substr($stringa, 1, strlen($stringa)-2);
+function preparaUrl($generator){       
+    $stringa = yii\helpers\Inflector::camel2words(yii\helpers\StringHelper::basename($generator->modelClass));    
+    $nuovaStringa = strtolower(str_replace(' ', '-', $stringa));
     return $nuovaStringa;
 }
 ?>
 <?=
-'use elitedivision\amos\core\helpers\Html;
+'<?php 
+use elitedivision\amos\core\helpers\Html;
     
 /*
  * Personalizzare a piacimento la vista
  * $model è il model legato alla tabella del db
  * $buttons sono i tasti del template standard {view}{update}{delete}
  */
+ ?>
 
 <div id="listViewListContainer">
     <div class="bk-listViewElement">        
@@ -21,7 +24,7 @@ function preparaUrl($stringa){
             <p>####### personalizzare l&#39;html a piacimento #######</p>
         </div>
         <div class="bk-elementActions">
-            <a href="'. preparaUrl($generator->viewPath) . '?id=<?= $model->id ?>"><button class="btn btn-success">Visualizza</button></a>
+            <a href="'. preparaUrl($generator) . '/view?id=<?= $model->id ?>"><button class="btn btn-success">Visualizza</button></a>
         </div>
         <div class="clear"></div>
     </div>

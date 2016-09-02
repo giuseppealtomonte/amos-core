@@ -27,7 +27,7 @@ $actionParamComments = $generator->generateActionParamComments();
 echo "<?php\n";
 ?>
 
-namespace <?= StringHelper::dirname(ltrim($generator->controllerClass, '\\')) ?>;
+namespace <?= StringHelper::dirname(ltrim($generator->controllerClass, '\\')) . '\base' ?>;
 
 use Yii;
 use <?= ltrim($generator->modelClass, '\\') ?>;
@@ -83,6 +83,8 @@ public function init() {
             ],
             'calendar' => [
                 'name' => 'calendar',
+                'intestazione' => '', //codice HTML per l'intestazione che verrà caricato prima del calendario,
+                                      //per esempio si può inserire una funzione $model->getHtmlIntestazione() creata ad hoc
                 'label' => T::tApp('{iconaCalendario} Calendario', [
                     'iconaCalendario' => AmosIcons::show('calendar')
                 ]),

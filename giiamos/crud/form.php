@@ -55,9 +55,9 @@
     use yii\helpers\Json;
     use yii\jui\Sortable;
     use yii\web\JsExpression;
-    use yii\web\View;
+    use yii\web\View;    
 
-
+    
     $this->registerJs('
         var tabsFieldsArray = ' . Json::encode($generator->tabsFieldList) . ';
         var initFromTabsFieldsArray = function (){
@@ -163,8 +163,8 @@
             'common\\helpers\\ActionColumn' => 'App Class',
         ]
     );
-    echo $form->field($generator, 'providerList')->textarea();
-
+    echo $form->field($generator, 'providerList')->checkboxList($generator->generateProviderCheckboxListData());
+    
     if ($generator->getTableSchema() && $generator->modelClass){ ?>
     <div class="col-lg-12 col-md-12">
         <?= $form->field($generator, 'formTabs')->widget(Select2::classname(), [

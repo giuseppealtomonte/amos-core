@@ -1,28 +1,25 @@
 <?php
+
 namespace elitedivision\amos\core\formatter;
 
 use yii\i18n\Formatter as YiiFormatter;
 
-class Formatter extends YiiFormatter
-{
+class Formatter extends YiiFormatter {
 
     public $tagsSeparator;
 
-    public function init()
-    {
+    public function init() {
         parent::init();
         if ($this->tagsSeparator == null) {
             $this->tagsSeparator = ',';
         }
     }
 
-    public function asImage()
-    {
+    public function asImage() {
         //'class' => 'gridview-image'
     }
 
-    public function asTags($value)
-    {
+    public function asTags($value) {
         if ($value === null) {
             return $this->nullDisplay;
         }
@@ -36,8 +33,7 @@ class Formatter extends YiiFormatter
         return $tagFormatter;
     }
 
-    public function asCarteCredito($value)
-    {
+    public function asCarteCredito($value) {
         $dimvalue = strlen($value);
         $newvalue = "";
         for ($i = 0; $i < $dimvalue; $i = $i + 4) {
@@ -46,15 +42,12 @@ class Formatter extends YiiFormatter
         return $newvalue;
     }
 
-    public function asMaiuscolo($value)
-    {
+    public function asMaiuscolo($value) {
         $newvalue = strtoupper($value);
         return $newvalue;
     }
 
-
-    public function asStatoattivo($value)
-    {
+    public function asStatoattivo($value) {
         if ($value == 0) {
             $visStato = "Non Attivo";
             return $visStato;
@@ -66,22 +59,27 @@ class Formatter extends YiiFormatter
         }
     }
 
-    public function asPrice($value)
-    {
+    public function asPrice($value) {
         $value = round($value, 2);
         $newvalue = "€ " . $value;
         return $newvalue;
     }
 
-    public function asPercentuale($value)
-    {
+    public function asMinutiDaIntero($value) {
+        $newvalue = $value . " minuti";
+        if ($value == 1) {
+            $newvalue = $value . " minuto";
+        }
+        return $newvalue;
+    }
+
+    public function asPercentuale($value) {
         $value = number_format($value, 2, '.', '');
         $newvalue = $value . " %";
         return $newvalue;
     }
 
-    public function asStatoSiNo($value)
-    {
+    public function asStatoSiNo($value) {
         if ($value == 0) {
             $visStato = "No";
             return $visStato;
@@ -93,8 +91,7 @@ class Formatter extends YiiFormatter
         }
     }
 
-    private function formatDateDiff($start, $end = null)
-    {
+    private function formatDateDiff($start, $end = null) {
         if (!($start instanceof \DateTime)) {
             $start = new \DateTime($start);
         }
@@ -104,7 +101,7 @@ class Formatter extends YiiFormatter
         }
 
         if (!($end instanceof \DateTime)) {
-            $end = new  \DateTime($start);
+            $end = new \DateTime($start);
         }
 
         $interval = $end->diff($start);
@@ -129,21 +126,24 @@ class Formatter extends YiiFormatter
                 case "second":
                     $str = $nb > 1 ? "secondi" : "secondo";
                     break;
-
             }
 
             return $str . " fa";
-
         };
         /*
-                $format = array();
-                if ($interval->y !== 0) {
-                    $format[] = "%y " . $doPlural($interval->y, "year");
-                }
-                if ($interval->m !== 0) {
-                    $format[] = "%m " . $doPlural($interval->m, "month");
-                }
-        */
+          $format = array();
+          if ($interval->y !== 0) {
+          $format[] = "%y " . $doPlural($interval->y, "year");
+          }
+          if ($interval->m !== 0) {
+          $format[] = "%m " . $doPlural($interval->m, "month");
+          }
+         */
+        
+        if ($interval->m !== 0 || $interval->y !== 0) {          
+                return $start->format("d/m/Y") . " alle " . $start->format("H:i");           
+        }
+        
         if ($interval->d !== 0) {
 
             $datetime1 = new \DateTime($start->format("Y-m-d"));
@@ -156,7 +156,6 @@ class Formatter extends YiiFormatter
             } else {
                 return $start->format("d/m/Y") . " alle " . $start->format("H:i");
             }
-
         }
 
         if ($interval->h !== 0) {
@@ -165,9 +164,14 @@ class Formatter extends YiiFormatter
             $datetime2 = new \DateTime($end->format("Y-m-d"));
 
             $interval2 = $datetime1->diff($datetime2);
-
+            
             if ($interval2->d == 1) {
-                return "ieri alle " . $start->format("H:i");
+                if ($interval2->format("%R%a") == "+1") {
+                    return "ieri alle " . $start->format("H:i");
+                }
+                if ($interval2->format("%R%a") == "-1") {
+                    return "domani alle " . $start->format("H:i");
+                }
             }
 
             if ($interval->h < 6) {
@@ -175,20 +179,19 @@ class Formatter extends YiiFormatter
             } else {
                 return "oggi alle " . $start->format("H:i");
             }
-
         } elseif ($interval->i !== 0) {
             $format[] = "%i " . $doPlural($interval->i, "minute");
         } elseif ($interval->s >= 0) {
             return "adesso";
             /*
              * else {
-                $format[] = "%s " . $doPlural($interval->s, "second");
-            }
-           */
+              $format[] = "%s " . $doPlural($interval->s, "second");
+              }
+             */
         }
 
         if (count($format) > 1) {
-            $format = array_shift($format);//. " and " . array_shift($format);
+            $format = array_shift($format); //. " and " . array_shift($format);
         } else {
             $format = array_pop($format);
         }
@@ -196,16 +199,19 @@ class Formatter extends YiiFormatter
         return $interval->format($format);
     }
 
-    public function asDateTime($value, $format = 'human')
-    {
-        if ($format == 'human') {
+    public function asDateTime($value, $format = 'human') {
+        if ($value) {
+            if ($format == 'human') {
 
-            $dStart = new \DateTime($value);
-            $dEnd = new \DateTime();
-            return $this->formatDateDiff($dStart, $dEnd);
+                $dStart = new \DateTime($value);
+                $dEnd = new \DateTime();
+                return $this->formatDateDiff($dStart, $dEnd);
+            } else {
+                parent::asDateTime($value, $format);
+            }
         } else {
-            parent::asDateTime($value, $format);
+            return 'Non disponibile';
         }
-
     }
+
 }
